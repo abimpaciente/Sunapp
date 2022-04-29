@@ -1,7 +1,7 @@
 package com.example.sunapp.model
 
 const val BASE_URL = "https://api.openweathermap.org/"
-const val END_POINT_FORECAST = "forecast"
+const val END_POINT_FORECAST = "data/2.5/forecast"
 const val PARAM_ZIP = "zip"
 const val PARAM_APP_ID = "appid"
 const val PARAM_UNITS = "units"

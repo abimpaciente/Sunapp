@@ -36,7 +36,7 @@
                 android:layout_height="match_parent"
                 xmlns:tools="http://schemas.android.com/tools"
                 tools:listitem="@layout/item_temperature_detail"
-                android:id="@+id/movie_list"
+                android:id="@+id/hours_list"
                 />
 
         </LinearLayout>

@@ -3,7 +3,7 @@ package com.example.sunapp.model
 data class WeatherResponse(
     var cod: String,
     var city: City,
-    var listDays: List<DayWeather>
+    var list: List<DayWeather>
 )
 
 data class City(
@@ -18,7 +18,7 @@ data class DayWeather(
 )
 
 data class Main(
-    var temp: String,
+    var temp: Double,
     var pressure: String
 )
 
