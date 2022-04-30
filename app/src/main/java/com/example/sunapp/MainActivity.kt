@@ -3,7 +3,7 @@ package com.example.sunapp
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import com.example.sunapp.databinding.ActivityMainBinding
-import com.example.sunapp.view.FragmentListDayLayout
+import com.example.sunapp.view.FragmentWeekDayLayout
 
 class MainActivity : AppCompatActivity() {
 
@@ -22,7 +22,7 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun openFragmentWeather(){
-        supportFragmentManager.beginTransaction().replace(R.id.container,FragmentListDayLayout())
+        supportFragmentManager.beginTransaction().replace(R.id.container,FragmentWeekDayLayout())
             .commit()
     }
 

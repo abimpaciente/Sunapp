@@ -10,22 +10,22 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.sunapp.R
-import com.example.sunapp.databinding.GradesLayaoutBinding
+import com.example.sunapp.databinding.FragmentWeekGradesLayaoutBinding
 import com.example.sunapp.model.WeatherResponse
 import com.example.sunapp.viewModel.WeatherViewModel
 import java.text.SimpleDateFormat
 import java.util.*
 
 
-class FragmentListDayLayout : Fragment() {
-    private lateinit var binding: GradesLayaoutBinding
+class FragmentWeekDayLayout : Fragment() {
+    private lateinit var binding: FragmentWeekGradesLayaoutBinding
     private val viewModel: WeatherViewModel by lazy {
         ViewModelProvider(this)[WeatherViewModel::class.java]
     }
 
     private lateinit var weatherList: RecyclerView
     private lateinit var kindGrade: String
-    private lateinit var adapter: WeatherAdapter
+    private lateinit var adapter: WeekWeatherAdapter
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -34,11 +34,9 @@ class FragmentListDayLayout : Fragment() {
     ): View? {
         super.onCreateView(inflater, container, savedInstanceState)
 
-
-
         kindGrade = "standar"
         if (!::binding.isInitialized)
-            binding = GradesLayaoutBinding.inflate(
+            binding = FragmentWeekGradesLayaoutBinding.inflate(
                 inflater,
                 container,
                 false
@@ -73,24 +71,13 @@ class FragmentListDayLayout : Fragment() {
             binding.tvGrades.text = "$grade"
             binding.tvMain.text = main
             val format = SimpleDateFormat("yyyy-MM-dd")
-            val format1 = SimpleDateFormat("EEEE")
             val calendar = GregorianCalendar.getInstance()
-            val days = ArrayList<String>()
             val res = it.list.groupBy { item ->
                 val date = format.parse(item.dt_txt)
                 calendar.time = date
                 calendar.get(Calendar.DAY_OF_YEAR)
-            }.mapValues { entry -> entry.value.map { it.dt_txt }.toSet() }
-
-            res.forEach {
-                val pas = it.value.first()
-                calendar.time  = format.parse(pas)
-                val date = format1.format(calendar.time)
-                days.add(date.toString())
             }
-
-
-            adapter = WeatherAdapter(days)
+            adapter = WeekWeatherAdapter(res)
             weatherList.adapter = adapter
         } ?: showError("No response from server")
     }
