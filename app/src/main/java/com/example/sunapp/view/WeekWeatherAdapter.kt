@@ -8,18 +8,15 @@ import android.widget.Toast
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.sunapp.R
-import com.example.sunapp.databinding.FragmentWeatherDayLayoutBinding
-import com.example.sunapp.databinding.ItemTemperatureDetailBinding
 import com.example.sunapp.model.DayWeather
 import java.text.SimpleDateFormat
 
-private lateinit var binding: FragmentWeatherDayLayoutBinding
 private lateinit var weatherList: RecyclerView
-private lateinit var kindGrade: String
 private lateinit var adapter: ItemWeatherAdapter
 
 class WeekWeatherAdapter(
-    private val dataSet: Map<Int, List<DayWeather>>
+    private val dataSet: Map<Int, List<DayWeather>>,
+    private val kindGrade: String
 ) :
     RecyclerView.Adapter<WeekWeatherAdapter.DayHolder>() {
 
@@ -27,9 +24,10 @@ class WeekWeatherAdapter(
     class DayHolder(private val view: View) :
         RecyclerView.ViewHolder(view) {
 
-        private val textDay: TextView = view.findViewById(R.id.tv_day_detail)
+        private val viewPool = RecyclerView.RecycledViewPool()
+        private val textDay: TextView = view.findViewById(R.id.parent_item_title)
 
-        fun onBind(dataItem: List<DayWeather>) {
+        fun onBind(dataItem: List<DayWeather>, kindGrade: String) {
             val date = dataItem.first().dt_txt.toString()
             val formatDate = SimpleDateFormat("yyyy-MM-dd")
             val formatDay = SimpleDateFormat("EEEE")
@@ -37,13 +35,13 @@ class WeekWeatherAdapter(
             textDay.text = day.toString()
 
 
-//            mediaList = view.findViewById(R.id.movie_list_rock)
-//            weatherList = binding.hoursList
-            weatherList = view.findViewById(R.id.hours_list)
-            weatherList.layoutManager = LinearLayoutManager(view.context)
+            weatherList = view.findViewById(R.id.child_recyclerview)
+            weatherList.layoutManager =
+                LinearLayoutManager(view.context, LinearLayoutManager.HORIZONTAL, false)
+            weatherList.setRecycledViewPool(viewPool)
 
 
-            adapter = ItemWeatherAdapter(dataItem) { dayDetail ->
+            adapter = ItemWeatherAdapter(dataItem, kindGrade = kindGrade) { dayDetail ->
                 showDetails(dayDetail)
             }
             weatherList.adapter = adapter
@@ -59,7 +57,7 @@ class WeekWeatherAdapter(
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): DayHolder {
         return DayHolder(
             LayoutInflater.from(parent.context).inflate(
-                R.layout.fragment_weather_day_layout,
+                R.layout.week_weather_layout,
                 parent,
                 false
             )
@@ -67,7 +65,7 @@ class WeekWeatherAdapter(
     }
 
     override fun onBindViewHolder(holder: DayHolder, position: Int) {
-        holder.onBind(dataSet.values.elementAt(position))
+        holder.onBind(dataSet.values.elementAt(position), kindGrade)
     }
 
     override fun getItemCount(): Int {

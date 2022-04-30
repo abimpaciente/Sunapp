@@ -1,62 +1,46 @@
-package com.example.sunapp.view
+package com.example.sunapp.viewModel
 
+import android.content.Context
+import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.view.LayoutInflater
+import android.util.AttributeSet
 import android.view.View
-import android.view.ViewGroup
 import android.widget.Toast
-import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import com.example.sunapp.R
-import com.example.sunapp.databinding.FragmentWeekGradesLayaoutBinding
+import com.example.sunapp.databinding.ActivityMainBinding
 import com.example.sunapp.model.WeatherResponse
-import com.example.sunapp.viewModel.WeatherViewModel
+import com.example.sunapp.view.WeekWeatherAdapter
 import java.text.SimpleDateFormat
 import java.util.*
 
+class MainActivity : AppCompatActivity() {
 
-class FragmentWeekDayLayout : Fragment() {
-    private lateinit var binding: FragmentWeekGradesLayaoutBinding
+
+    private lateinit var binding: ActivityMainBinding
+    private lateinit var weatherList: RecyclerView
+    private lateinit var kindGrade: String
+    private lateinit var adapter: WeekWeatherAdapter
     private val viewModel: WeatherViewModel by lazy {
         ViewModelProvider(this)[WeatherViewModel::class.java]
     }
 
-    private lateinit var weatherList: RecyclerView
-    private lateinit var kindGrade: String
-    private lateinit var adapter: WeekWeatherAdapter
 
-    override fun onCreateView(
-        inflater: LayoutInflater,
-        container: ViewGroup?,
-        savedInstanceState: Bundle?
-    ): View? {
-        super.onCreateView(inflater, container, savedInstanceState)
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        binding = ActivityMainBinding.inflate(layoutInflater)
+        setContentView(binding.root)
 
-        kindGrade = "imperial"
-        if (!::binding.isInitialized)
-            binding = FragmentWeekGradesLayaoutBinding.inflate(
-                inflater,
-                container,
-                false
-            )
+        initViews()
 
-        weatherList = binding.weatherListDay
-        weatherList.layoutManager = LinearLayoutManager(requireContext())
 
-        viewModel.weatherModel.observe(viewLifecycleOwner) {
+        viewModel.weatherModel.observe(this) {
             // invoke after changes are "push" to the current Observer.
             updateUI(it)
         }
+
         viewModel.getWeather("30339", "US", "abca655c8fb6c771b90146dd2e747976", kindGrade)
-
-        return binding.root
-    }
-
-    private fun initViews(view: View) {
-        weatherList = view.findViewById(R.id.weather_list_day)
-        weatherList.layoutManager = LinearLayoutManager(requireContext())
 
     }
 
@@ -93,7 +77,22 @@ class FragmentWeekDayLayout : Fragment() {
     }
 
     private fun showError(errorMessage: String) {
-        Toast.makeText(context, errorMessage, Toast.LENGTH_SHORT)
+        Toast.makeText(this, errorMessage, Toast.LENGTH_SHORT)
     }
+
+    override fun onCreateView(name: String, context: Context, attrs: AttributeSet): View? {
+        return super.onCreateView(name, context, attrs)
+    }
+
+    private fun initViews() {
+
+        kindGrade = "metric"
+
+        weatherList = binding.parentRecyclerview
+        weatherList.layoutManager = LinearLayoutManager(this)
+
+
+    }
+
 
 }
