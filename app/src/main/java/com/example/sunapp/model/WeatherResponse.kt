@@ -1,5 +1,7 @@
 package com.example.sunapp.model
 
+import com.example.sunapp.model.common.GradeType
+
 data class WeatherResponse(
     var cod: String,
     var city: City,
@@ -26,4 +28,11 @@ data class Weather(
     var icon: String,
     var main: String,
     var description: String
+)
+
+data class RequestWeather(
+    var zip:String,
+    var country: String,
+    var appId:String,
+    var gradeType: GradeType
 )

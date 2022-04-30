@@ -12,6 +12,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.example.sunapp.R
 import com.example.sunapp.databinding.FragmentWeekGradesLayaoutBinding
 import com.example.sunapp.model.WeatherResponse
+import com.example.sunapp.model.common.GradeType
 import com.example.sunapp.viewModel.WeatherViewModel
 import java.text.SimpleDateFormat
 import java.util.*
@@ -24,7 +25,6 @@ class FragmentWeekDayLayout : Fragment() {
     }
 
     private lateinit var weatherList: RecyclerView
-    private lateinit var kindGrade: String
     private lateinit var adapter: WeekWeatherAdapter
 
     override fun onCreateView(
@@ -34,7 +34,6 @@ class FragmentWeekDayLayout : Fragment() {
     ): View? {
         super.onCreateView(inflater, container, savedInstanceState)
 
-        kindGrade = "imperial"
         if (!::binding.isInitialized)
             binding = FragmentWeekGradesLayaoutBinding.inflate(
                 inflater,
@@ -49,7 +48,7 @@ class FragmentWeekDayLayout : Fragment() {
             // invoke after changes are "push" to the current Observer.
             updateUI(it)
         }
-        viewModel.getWeather("30339", "US", "abca655c8fb6c771b90146dd2e747976", kindGrade)
+//        viewModel.getWeather("30339", "US", "abca655c8fb6c771b90146dd2e747976", kindGrade)
 
         return binding.root
     }
@@ -64,18 +63,7 @@ class FragmentWeekDayLayout : Fragment() {
         data?.let { it ->
             val place = data.city.name
             val city = data.city.country
-            var grade = data.list[0].main.temp.toInt().toString() + "°"
-            grade += when (kindGrade) {
-                "imperial" -> {
-                    "F"
-                }
-                "metric" -> {
-                    "C"
-                }
-                else -> {
-                    "K"
-                }
-            }
+            var grade = data.list[0].main.temp.toInt().toString()
             val main = data.list[0].weather[0].main
             binding.tvPlace.text = "$place,$city"
             binding.tvGrades.text = "$grade"
@@ -87,7 +75,7 @@ class FragmentWeekDayLayout : Fragment() {
                 calendar.time = date
                 calendar.get(Calendar.DAY_OF_YEAR)
             }
-            adapter = WeekWeatherAdapter(res, kindGrade)
+            adapter = WeekWeatherAdapter(res, GradeType.CELSIUS)
             weatherList.adapter = adapter
         } ?: showError("No response from server")
     }

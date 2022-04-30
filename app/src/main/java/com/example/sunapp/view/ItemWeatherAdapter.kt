@@ -14,9 +14,6 @@ import com.squareup.picasso.Picasso
 import java.text.SimpleDateFormat
 import java.time.LocalDateTime
 import java.time.format.DateTimeFormatter
-import java.time.format.DateTimeFormatterBuilder
-import java.time.temporal.ChronoField
-import java.util.*
 
 class ItemWeatherAdapter(
     private val dataSet: List<DayWeather>,
@@ -52,18 +49,7 @@ class ItemWeatherAdapter(
             date = SimpleDateFormat("hh:mm aa").format(asd)
 
             hourDetail.text = date.toString()
-            var grade = dataItem.main.temp.toInt().toString() + "°"
-            grade += when (kindGrade) {
-                "imperial" -> {
-                    "F"
-                }
-                "metric" -> {
-                    "C"
-                }
-                else -> {
-                    "K"
-                }
-            }
+            var grade = dataItem.main.temp.toInt().toString() + kindGrade
             gradeDetail.text = grade
             view.setOnClickListener { OnClickListener(dataItem) }
 

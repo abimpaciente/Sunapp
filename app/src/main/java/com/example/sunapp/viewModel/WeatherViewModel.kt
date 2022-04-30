@@ -18,11 +18,11 @@ class WeatherViewModel : ViewModel() {
     val error: LiveData<String> get() = _error
     private val service = WeatherService.initRetrofit()
 
-    fun getWeather(zip: String, country: String, appId: String, units: String) {
+    fun getWeather(requestWeather: RequestWeather) {
         service.getWeather(
-            "$zip,$country",
-            appId,
-            units
+            "${requestWeather.zip},${requestWeather.country}",
+            requestWeather.appId,
+            requestWeather.gradeType.nameGrade
         )
             .enqueue(
                 object : Callback<WeatherResponse> {

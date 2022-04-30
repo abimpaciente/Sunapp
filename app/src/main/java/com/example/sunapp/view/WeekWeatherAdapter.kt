@@ -9,6 +9,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.sunapp.R
 import com.example.sunapp.model.DayWeather
+import com.example.sunapp.model.common.GradeType
 import java.text.SimpleDateFormat
 
 private lateinit var weatherList: RecyclerView
@@ -16,7 +17,7 @@ private lateinit var adapter: ItemWeatherAdapter
 
 class WeekWeatherAdapter(
     private val dataSet: Map<Int, List<DayWeather>>,
-    private val kindGrade: String
+    private val kindGrade: GradeType
 ) :
     RecyclerView.Adapter<WeekWeatherAdapter.DayHolder>() {
 
@@ -27,7 +28,7 @@ class WeekWeatherAdapter(
         private val viewPool = RecyclerView.RecycledViewPool()
         private val textDay: TextView = view.findViewById(R.id.parent_item_title)
 
-        fun onBind(dataItem: List<DayWeather>, kindGrade: String) {
+        fun onBind(dataItem: List<DayWeather>, valueGrade: String) {
             val date = dataItem.first().dt_txt.toString()
             val formatDate = SimpleDateFormat("yyyy-MM-dd")
             val formatDay = SimpleDateFormat("EEEE")
@@ -41,7 +42,7 @@ class WeekWeatherAdapter(
             weatherList.setRecycledViewPool(viewPool)
 
 
-            adapter = ItemWeatherAdapter(dataItem, kindGrade = kindGrade) { dayDetail ->
+            adapter = ItemWeatherAdapter(dataItem, kindGrade = valueGrade) { dayDetail ->
                 showDetails(dayDetail)
             }
             weatherList.adapter = adapter
@@ -65,7 +66,7 @@ class WeekWeatherAdapter(
     }
 
     override fun onBindViewHolder(holder: DayHolder, position: Int) {
-        holder.onBind(dataSet.values.elementAt(position), kindGrade)
+        holder.onBind(dataSet.values.elementAt(position), kindGrade.valueGrade)
     }
 
     override fun getItemCount(): Int {
