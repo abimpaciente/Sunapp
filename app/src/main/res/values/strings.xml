@@ -1,3 +1,12 @@
 <resources>
     <string name="app_name">Sunapp</string>
+    <string-array name="Grades">
+        <item>Fahrenheit</item>
+        <item>Celsius</item>
+        <item>Kelvin</item>
+    </string-array>
+    <string-array name="Countries">
+        <item>US</item>
+        <item>MX</item>
+    </string-array>
 </resources>

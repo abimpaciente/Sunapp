@@ -5,7 +5,8 @@ import com.example.sunapp.model.common.GradeType
 data class WeatherResponse(
     var cod: String,
     var city: City,
-    var list: List<DayWeather>
+    var list: List<DayWeather>,
+    var message:String
 )
 
 data class City(
@@ -33,6 +34,5 @@ data class Weather(
 data class RequestWeather(
     var zip:String,
     var country: String,
-    var appId:String,
     var gradeType: GradeType
 )

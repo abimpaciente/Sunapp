@@ -1,15 +1,19 @@
 package com.example.sunapp.view
 
 import android.content.Context
+import android.os.Build
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.AttributeSet
 import android.view.View
 import android.widget.Toast
+import androidx.annotation.RequiresApi
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.example.sunapp.R
 import com.example.sunapp.databinding.ActivityMainBinding
+import com.example.sunapp.model.OnPassRequest
 import com.example.sunapp.model.RequestWeather
 import com.example.sunapp.model.WeatherResponse
 import com.example.sunapp.model.common.GradeType
@@ -17,7 +21,7 @@ import com.example.sunapp.viewModel.WeatherViewModel
 import java.text.SimpleDateFormat
 import java.util.*
 
-class MainActivity : AppCompatActivity() {
+class MainActivity : AppCompatActivity(), OnPassRequest {
 
 
     private lateinit var binding: ActivityMainBinding
@@ -29,6 +33,7 @@ class MainActivity : AppCompatActivity() {
     }
 
 
+    @RequiresApi(Build.VERSION_CODES.M)
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityMainBinding.inflate(layoutInflater)
@@ -40,6 +45,12 @@ class MainActivity : AppCompatActivity() {
         viewModel.weatherModel.observe(this) {
             // invoke after changes are "push" to the current Observer.
             updateUI(it)
+
+            Toast.makeText(this, "Carp", Toast.LENGTH_SHORT)
+
+        }
+        viewModel.error.observe(this) {
+            Toast.makeText(this, it, Toast.LENGTH_SHORT)
         }
 
         viewModel.getWeather(
@@ -67,6 +78,12 @@ class MainActivity : AppCompatActivity() {
             }
             adapter = WeekWeatherAdapter(res, requestWeather.gradeType)
             weatherList.adapter = adapter
+
+
+            binding.ivSettings.setOnClickListener { openSettingFragment() }
+
+            binding.container.visibility = View.INVISIBLE
+
         } ?: showError("No response from server")
     }
 
@@ -80,18 +97,29 @@ class MainActivity : AppCompatActivity() {
 
     private fun initViews() {
 
-
         requestWeather =
             RequestWeather(
                 "30339",
                 "US",
-                "abca655c8fb6c771b90146dd2e747976",
                 GradeType.FAHRENHEIT
             )
         weatherList = binding.parentRecyclerview
         weatherList.layoutManager = LinearLayoutManager(this)
 
 
+    }
+
+    private fun openSettingFragment() {
+        supportFragmentManager.beginTransaction()
+            .replace(R.id.container, SettingWeatherFragment(viewModel))
+            .addToBackStack(null)
+            .commit()
+        binding.container.visibility = View.VISIBLE
+
+    }
+
+    override fun onDataPass(data: RequestWeather) {
+        requestWeather = data
     }
 
 

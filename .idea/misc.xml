@@ -6,13 +6,17 @@
         <entry key="../../../../layout/custom_preview.xml" value="0.234375" />
         <entry key="app/src/main/res/drawable-v24/ic_launcher_foreground.xml" value="0.2625" />
         <entry key="app/src/main/res/drawable/ic_launcher_background.xml" value="0.2625" />
-        <entry key="app/src/main/res/layout/activity_main.xml" value="0.24676513671875" />
+        <entry key="app/src/main/res/layout/activity_main.xml" value="0.12406015037593984" />
         <entry key="app/src/main/res/layout/day_weather_layout.xml" value="0.33902759526938236" />
+        <entry key="app/src/main/res/layout/drop_down.xml" value="0.19322916666666667" />
+        <entry key="app/src/main/res/layout/drop_down_contries.xml" value="0.19322916666666667" />
+        <entry key="app/src/main/res/layout/drop_down_grades.xml" value="0.6464285714285715" />
         <entry key="app/src/main/res/layout/fragment_list_day_layout.xml" value="0.3867271533910779" />
         <entry key="app/src/main/res/layout/fragment_weather_day_layout.xml" value="0.19882246376811594" />
         <entry key="app/src/main/res/layout/fragment_week_grades_layaout.xml" value="0.2816500724630153" />
         <entry key="app/src/main/res/layout/grades_layaout.xml" value="0.10106382978723404" />
         <entry key="app/src/main/res/layout/item_temperature_detail.xml" value="0.2776268115942029" />
+        <entry key="app/src/main/res/layout/settings_weather_layout.xml" value="0.16077321370442704" />
         <entry key="app/src/main/res/layout/week_weather_layout.xml" value="0.1" />
       </map>
     </option>

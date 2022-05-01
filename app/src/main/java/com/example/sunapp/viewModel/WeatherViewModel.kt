@@ -21,7 +21,7 @@ class WeatherViewModel : ViewModel() {
     fun getWeather(requestWeather: RequestWeather) {
         service.getWeather(
             "${requestWeather.zip},${requestWeather.country}",
-            requestWeather.appId,
+            "abca655c8fb6c771b90146dd2e747976",
             requestWeather.gradeType.nameGrade
         )
             .enqueue(
@@ -38,6 +38,8 @@ class WeatherViewModel : ViewModel() {
                             } ?: kotlin.run {
                                 _error.value = response.message()
                             }
+                        } else {
+                            _error.value = response.message()
                         }
                     }
 
