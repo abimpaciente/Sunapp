@@ -13,12 +13,13 @@ import androidx.fragment.app.DialogFragment
 import androidx.fragment.app.Fragment
 import com.example.sunapp.R
 import com.example.sunapp.databinding.SettingsWeatherLayoutBinding
-import com.example.sunapp.model.OnPassRequest
 import com.example.sunapp.model.RequestWeather
 import com.example.sunapp.model.common.GradeType
 import com.example.sunapp.viewModel.WeatherViewModel
+import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 
-class SettingWeatherFragment(private var viewModel: WeatherViewModel) : Fragment() {
+class SettingWeatherFragment(private var viewModel: WeatherViewModel) :
+    BottomSheetDialogFragment() {
 
     private lateinit var binding: SettingsWeatherLayoutBinding
     lateinit var dataPasser: OnPassRequest
@@ -35,6 +36,8 @@ class SettingWeatherFragment(private var viewModel: WeatherViewModel) : Fragment
     ): View? {
 
         binding = SettingsWeatherLayoutBinding.inflate(layoutInflater)
+//        val v = inflater.inflate(R.layout.settings_weather_layout, container, false)
+
 
         val adapterGrades =
             ArrayAdapter(requireContext(), R.layout.drop_down_grades, GradeType.values())
@@ -55,27 +58,13 @@ class SettingWeatherFragment(private var viewModel: WeatherViewModel) : Fragment
                     (GradeType.valueOf(binding.spUnits.selectedItem.toString()))
                 )
             viewModel.getWeather(requestWeather)
-            hideKeyboard()
             dataPasser.onDataPass(requestWeather)
-
         }
         return binding.root
     }
 
 
-    private fun Fragment.hideKeyboard() {
-        val activity = this.activity
-        if (activity is AppCompatActivity) {
-            activity.hideKeyboard()
-        }
+    interface OnPassRequest {
+        fun onDataPass(data: RequestWeather)
     }
-}
-
-fun AppCompatActivity.hideKeyboard() {
-    val view = this.currentFocus
-    if (view != null) {
-        val imm = getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
-        imm.hideSoftInputFromWindow(view.windowToken, 0)
-    }
-    window.setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_HIDDEN)
 }

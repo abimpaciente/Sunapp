@@ -12,6 +12,7 @@
         android:layout_height="wrap_content"
         android:background="@color/blue"
         android:orientation="horizontal"
+        android:padding="5dp"
         app:layout_constraintStart_toStartOf="parent"
 
         app:layout_constraintTop_toTopOf="parent">
@@ -88,17 +89,5 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent" />
     </LinearLayout>
-
-    <FrameLayout
-        android:id="@+id/container"
-        android:layout_width="match_parent"
-        android:layout_height="300dp"
-        android:background="@color/white"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        android:visibility="invisible">
-
-    </FrameLayout>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

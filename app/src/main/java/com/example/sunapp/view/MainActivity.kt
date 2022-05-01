@@ -2,38 +2,40 @@ package com.example.sunapp.view
 
 import android.content.Context
 import android.os.Build
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.AttributeSet
+import android.util.Log
 import android.view.View
 import android.widget.Toast
 import androidx.annotation.RequiresApi
+import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import com.example.sunapp.R
 import com.example.sunapp.databinding.ActivityMainBinding
-import com.example.sunapp.model.OnPassRequest
 import com.example.sunapp.model.RequestWeather
 import com.example.sunapp.model.WeatherResponse
 import com.example.sunapp.model.common.GradeType
 import com.example.sunapp.viewModel.WeatherViewModel
+import com.google.android.material.bottomsheet.BottomSheetDialogFragment
+import org.json.JSONObject
 import java.text.SimpleDateFormat
 import java.util.*
 
-class MainActivity : AppCompatActivity(), OnPassRequest {
+
+class MainActivity : AppCompatActivity(), SettingWeatherFragment.OnPassRequest {
 
 
     private lateinit var binding: ActivityMainBinding
     private lateinit var weatherList: RecyclerView
     private lateinit var adapter: WeekWeatherAdapter
     private lateinit var requestWeather: RequestWeather
+    private lateinit var bottomSheet: BottomSheetDialogFragment
     private val viewModel: WeatherViewModel by lazy {
         ViewModelProvider(this)[WeatherViewModel::class.java]
     }
 
 
-    @RequiresApi(Build.VERSION_CODES.M)
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityMainBinding.inflate(layoutInflater)
@@ -46,17 +48,19 @@ class MainActivity : AppCompatActivity(), OnPassRequest {
             // invoke after changes are "push" to the current Observer.
             updateUI(it)
 
-            Toast.makeText(this, "Carp", Toast.LENGTH_SHORT)
 
         }
         viewModel.error.observe(this) {
-            Toast.makeText(this, it, Toast.LENGTH_SHORT)
+
+            val json = JSONObject(it)
+            val message = json.getString("message")
+            Toast.makeText(applicationContext, message, Toast.LENGTH_SHORT).show()
+            //Snackbar.make(binding.root, message, Snackbar.LENGTH_LONG).show()
         }
 
         viewModel.getWeather(
             requestWeather
         )
-
     }
 
     private fun updateUI(data: WeatherResponse?) {
@@ -81,19 +85,16 @@ class MainActivity : AppCompatActivity(), OnPassRequest {
 
 
             binding.ivSettings.setOnClickListener { openSettingFragment() }
-
-            binding.container.visibility = View.INVISIBLE
+            if (bottomSheet.isVisible)
+                bottomSheet.dismiss()
 
         } ?: showError("No response from server")
     }
 
     private fun showError(errorMessage: String) {
-        Toast.makeText(this, errorMessage, Toast.LENGTH_SHORT)
+        Toast.makeText(this, errorMessage, Toast.LENGTH_SHORT).show()
     }
 
-    override fun onCreateView(name: String, context: Context, attrs: AttributeSet): View? {
-        return super.onCreateView(name, context, attrs)
-    }
 
     private fun initViews() {
 
@@ -105,16 +106,17 @@ class MainActivity : AppCompatActivity(), OnPassRequest {
             )
         weatherList = binding.parentRecyclerview
         weatherList.layoutManager = LinearLayoutManager(this)
-
-
+        bottomSheet = SettingWeatherFragment(viewModel)
     }
 
     private fun openSettingFragment() {
-        supportFragmentManager.beginTransaction()
-            .replace(R.id.container, SettingWeatherFragment(viewModel))
-            .addToBackStack(null)
-            .commit()
-        binding.container.visibility = View.VISIBLE
+//        supportFragmentManager.beginTransaction()
+//            .replace(R.id.container_settings, SettingWeatherFragment(viewModel))
+//            .addToBackStack(null)
+//            .commit()
+
+        if (!bottomSheet.isVisible)
+            bottomSheet.show(supportFragmentManager, "settings")
 
     }
 

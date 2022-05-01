@@ -36,10 +36,10 @@ class WeatherViewModel : ViewModel() {
                             response.body()?.let {
                                 _weatherModel.value = it
                             } ?: kotlin.run {
-                                _error.value = response.message()
+                                _error.value = response.errorBody()?.string()
                             }
                         } else {
-                            _error.value = response.message()
+                            _error.value = response.errorBody()?.string()
                         }
                     }
 
