@@ -1,19 +1,17 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:padding="45dp"
+    android:orientation="vertical">
 
     <LinearLayout
         android:id="@+id/ln_settings"
+        android:padding="15dp"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="vertical"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent">
+        android:orientation="vertical">
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -24,7 +22,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_weight="3"
-                android:text="Zip" />
+                android:text="@string/zip" />
 
             <EditText
                 android:id="@+id/txt_zip"
@@ -33,7 +31,8 @@
                 android:layout_weight="1"
                 android:inputType="number"
                 android:maxLength="5"
-                android:padding="15dp" />
+                android:padding="15dp"
+                android:autofillHints="@string/zip"/>
 
         </LinearLayout>
 
@@ -46,7 +45,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_weight="3"
-                android:text="Units" />
+                android:text="@string/units" />
 
             <Spinner
                 android:id="@+id/sp_units"
@@ -66,7 +65,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_weight="3"
-                android:text="Zip" />
+                android:text="@string/country" />
 
             <Spinner
                 android:id="@+id/sp_countries"
@@ -84,10 +83,7 @@
         android:id="@+id/ln_actions"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/ln_settings">
+        android:orientation="horizontal">
 
         <Button
             android:id="@+id/btn_accept"
@@ -98,4 +94,4 @@
 
     </LinearLayout>
 
-</androidx.constraintlayout.widget.ConstraintLayout>
+</LinearLayout>

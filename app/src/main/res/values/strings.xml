@@ -1,5 +1,9 @@
 <resources>
-    <string name="app_name">Sunapp</string>
+    <string name="app_name">SunApp</string>
+    <string name="settings">settings</string>
+    <string name="zip">Zip</string>
+    <string name="country">Country</string>
+    <string name="units">Units</string>
     <string-array name="Grades">
         <item>Fahrenheit</item>
         <item>Celsius</item>

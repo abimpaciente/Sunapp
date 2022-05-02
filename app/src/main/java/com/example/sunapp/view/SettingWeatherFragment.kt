@@ -5,12 +5,7 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.view.WindowManager
-import android.view.inputmethod.InputMethodManager
 import android.widget.ArrayAdapter
-import androidx.appcompat.app.AppCompatActivity
-import androidx.fragment.app.DialogFragment
-import androidx.fragment.app.Fragment
 import com.example.sunapp.R
 import com.example.sunapp.databinding.SettingsWeatherLayoutBinding
 import com.example.sunapp.model.RequestWeather
@@ -22,8 +17,8 @@ class SettingWeatherFragment(private var viewModel: WeatherViewModel) :
     BottomSheetDialogFragment() {
 
     private lateinit var binding: SettingsWeatherLayoutBinding
-    lateinit var dataPasser: OnPassRequest
 
+    lateinit var dataPasser: OnPassRequest
     override fun onAttach(context: Context) {
         super.onAttach(context)
         dataPasser = context as OnPassRequest
@@ -36,15 +31,12 @@ class SettingWeatherFragment(private var viewModel: WeatherViewModel) :
     ): View? {
 
         binding = SettingsWeatherLayoutBinding.inflate(layoutInflater)
-//        val v = inflater.inflate(R.layout.settings_weather_layout, container, false)
-
 
         val adapterGrades =
             ArrayAdapter(requireContext(), R.layout.drop_down_grades, GradeType.values())
         val countries = resources.getStringArray(R.array.Countries)
         val adapterCountries =
             ArrayAdapter(requireContext(), R.layout.drop_down_countries, countries)
-
 
         binding.spUnits.adapter = adapterGrades
         binding.spCountries.adapter = adapterCountries

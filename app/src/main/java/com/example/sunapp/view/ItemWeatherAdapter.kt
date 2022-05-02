@@ -1,5 +1,6 @@
 package com.example.sunapp.view
 
+import android.content.Context
 import android.os.Build
 import android.view.LayoutInflater
 import android.view.View
@@ -7,6 +8,7 @@ import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
 import androidx.annotation.RequiresApi
+import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.RecyclerView
 import com.example.sunapp.R
 import com.example.sunapp.model.DayWeather
@@ -47,6 +49,15 @@ class ItemWeatherAdapter(
             val hourFormat = SimpleDateFormat("H:mm")
             val asd = hourFormat.parse(date)
             date = SimpleDateFormat("hh:mm aa").format(asd)
+
+            if (dataItem.weather[0].main == "Clear") {
+                imageWeather.setColorFilter(
+                    ContextCompat.getColor(view.context, R.color.mi_color),
+                    android.graphics.PorterDuff.Mode.MULTIPLY
+                );
+
+            }
+
 
             hourDetail.text = date.toString()
             var grade = dataItem.main.temp.toInt().toString() + kindGrade

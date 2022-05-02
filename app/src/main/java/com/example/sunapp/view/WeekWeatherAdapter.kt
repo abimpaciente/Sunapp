@@ -56,8 +56,6 @@ class WeekWeatherAdapter(
                 }
             }
 
-
-
             weatherList = view.findViewById(R.id.child_recyclerview)
             weatherList.layoutManager =
                 LinearLayoutManager(view.context, LinearLayoutManager.HORIZONTAL, false)
@@ -74,7 +72,6 @@ class WeekWeatherAdapter(
         private fun showDetails(dayDetail: DayWeather) {
 
         }
-
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): DayHolder {
